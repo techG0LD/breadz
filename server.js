@@ -1,15 +1,29 @@
 const express = require('express')
 const morgan =require('morgan')
 const methodOverride = require('method-override')
-
+const mongoose = require('mongoose')
+// const mongoURI = `mongodb://localhost:27017/breads`
+require('dotenv').config()
 const app = express()
 
-require('dotenv').config()
+const connectToMongo = () => {
+    mongoose.connect(process.env.MONGO_URI)
+        .then(() => {
+            console.log('Connected to Mongo Successfully');
+        })
+        .catch(err => {
+            console.error('Failed to connect to Mongo: ' + err);
+        });
+}
+
+
+
+
 
 const PORT = process.env.PORT;
 
 app.use(morgan('tiny'))
-
+connectToMongo()
 
 
 // MIDDLEWARE
@@ -22,6 +36,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 
 app.use(methodOverride('_method'))
+
 
 
 // console.log(PORT)
@@ -47,4 +62,5 @@ app.get('*',(req,res) => {
 
 app.listen(PORT,function(){
     console.log(`http://localhost:${PORT}`)
+    console.log(`http://localhost:${PORT}/breads`)
 })

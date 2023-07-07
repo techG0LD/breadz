@@ -1,7 +1,7 @@
 const React = require('react')
 const Default = require('./layout/default')
 
-function New(){
+function New({error}){
     return (
         <Default>
             <h2>Add a new bread</h2>
@@ -19,6 +19,15 @@ function New(){
                     name='image'
                     id='image'
                     pattern="https?://.+" title="Include http://" />
+                <label htmlFor='baker'>Baker</label>
+                <select name ="baker" id='baker'>
+                    <option value='Rachel'>Rachel</option>
+                    <option value='Monica'>Monica</option>
+                    <option value='Joey'>Joey</option>
+                    <option value='Chandler'>Chandler</option>
+                    <option value='Ross'>Ross</option>
+                    <option value='Phoebe'></option>
+                </select>
                 <label htmlFor='hasGluten'>Has Gluten?</label>
                 <input 
                     type='checkbox'
@@ -27,6 +36,8 @@ function New(){
                     defaultChecked
                 />
                 <br />
+                <div style={{color: 'red'}}>{error ? (<div>{error.errors.baker.message}</div>): null}</div>
+                
                 <input type ='submit'/>
             </form>
 
