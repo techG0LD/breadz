@@ -1,7 +1,7 @@
 const React = require('react')
 const Default = require('./layout/default')
 
-function Edit({bread,title}){
+function Edit({bread,bakers,title}){
     return (
         <Default title={title}>
             <h2>Edit a bread</h2>
@@ -23,14 +23,24 @@ function Edit({bread,title}){
                     pattern="https?://.+" title="Include http://" />
                 
                 <label htmlFor='baker'>Baker</label>
-                <select name ="baker" id='baker' defaultValue = {bread.baker}>
+                <select name="baker" id="baker" defaultValue={bread.baker}>
+                    {bakers.map((baker) => {
+                        return (
+                            <option value={baker.id} key={baker.id}>
+                            {baker.name}
+                        </option>
+                        )
+                    } )}
+                </select>
+                
+                {/* <select name ="baker" id='baker' defaultValue = {bread.baker}>
                     <option value='Rachel'>Rachel</option>
                     <option value='Monica'>Monica</option>
                     <option value='Joey'>Joey</option>
                     <option value='Chandler'>Chandler</option>
                     <option value='Ross'>Ross</option>
                     <option value='Phoebe'></option>
-                </select>
+                </select> */}
                     
                 <label htmlFor='hasGluten'>Has Gluten?</label>
                 <input 

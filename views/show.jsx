@@ -33,7 +33,7 @@ function Show ({bread , bakersOtherBreads}) {
                 </p>
                 <img src={bread.image}  alt={bread.name} />
                 <p>{bread.getBakedBy()}</p>
-                <div>
+                {/* <div>
                     {!bakersOtherBreads.length ? 
                     <div>{bread.baker} doesn't have other</div>:
                     (<div>
@@ -46,7 +46,7 @@ function Show ({bread , bakersOtherBreads}) {
                         </ul>
                     </div>)}
                     {}
-                </div>
+                </div> */}
                 <li><a href="/breads">Go home</a></li>
 
             </Default>

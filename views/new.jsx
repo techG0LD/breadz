@@ -1,7 +1,9 @@
 const React = require('react')
 const Default = require('./layout/default')
 
-function New({error}){
+function New(props){    //{error}  removed this from passing in to make error message
+        const {bakers} = props
+        console.log({bakers})
     return (
         <Default>
             <h2>Add a new bread</h2>
@@ -20,14 +22,25 @@ function New({error}){
                     id='image'
                     pattern="https?://.+" title="Include http://" />
                 <label htmlFor='baker'>Baker</label>
-                <select name ="baker" id='baker'>
+                <select name="baker" id="baker">
+                    {bakers.map((baker) => {
+                        return (
+                            <option value={baker.id} key = {baker.id}>
+                                {baker.name}
+                            </option>
+                        )
+                    })}
+
+
+                </select>
+                {/* <select name ="baker" id='baker'>
                     <option value='Rachel'>Rachel</option>
                     <option value='Monica'>Monica</option>
                     <option value='Joey'>Joey</option>
                     <option value='Chandler'>Chandler</option>
                     <option value='Ross'>Ross</option>
                     <option value='Phoebe'></option>
-                </select>
+                </select> */}
                 <label htmlFor='hasGluten'>Has Gluten?</label>
                 <input 
                     type='checkbox'
@@ -36,7 +49,7 @@ function New({error}){
                     defaultChecked
                 />
                 <br />
-                <div style={{color: 'red'}}>{error ? (<div>{error.errors.baker.message}</div>): null}</div>
+                {/* <div style={{color: 'red'}}>{error ? (<div>{error.errors.baker.message}</div>): null}</div> */}
                 
                 <input type ='submit'/>
             </form>

@@ -2,27 +2,55 @@ const express = require('express')
 const breads = express.Router();
 
 const Bread = require('../models/bread')
+const Baker = require('../models/baker')
 const seedData = require('../seeds')
-
 
 //INDEX /breads/
 
-breads.get('/', (req,res) => {
-    // res.send(Bread)    //'This is the index at /breads/'
-    Bread.find()
-    .then(foundBreads => {
+breads.get('/', async(req, res) => {
+
+    try {
+        const foundBakers = await Baker.find().lean()
+        const foundBreads = await Bread.find().populate('baker').limit(4)
+
         res.render('index', {
-        breads : foundBreads,
-        title: 'Index Page'
+            breads: foundBreads,
+            bakers: foundBakers,
+            title: 'Index Page'
         })
-    })
-})
+    }
+    catch (error){
+        console.log(error)
+    }
+    
+    // const foundBakers = await Baker.find().lean()            this way works too
+    // const foundBreads = await Bread.find().limit(2).lean()
+    // Baker.find()
+    // .then(foundBakers => {
+    //     Bread.find()
+    //     .populate('baker')
+    //     .then(foundBreads => {
+    //         res.render('index', {
+    //             breads: foundBreads,
+    //             bakers: foundBakers,
+    //             title: 'Index Page'
+    //         })
+    //     })
+    // })
+    
+  })
 
 
 //  NEW
 breads.get('/new',(req,res) => {
-    console.log('hello')
-    res.render('new')
+
+    Baker.find().then(function (foundBakers){
+        res.render('new',{
+            bakers: foundBakers
+        })
+    })
+    // console.log('hello')
+    
 })
 
 
@@ -33,30 +61,15 @@ breads.get('/:id', function(req,res) {
     const id = req.params.id;
 
     Bread.findById(id)
+        .populate('baker')
         .then(foundBread => {
-            const bakersName = foundBread.baker;
-            Bread.findBakersOtherBreads(bakersName)
-            .then((bakersOtherBreads) => {
-                console.log({bakersOtherBreads})
                  res.render('show', {
                 bread: foundBread,
-                bakersOtherBreads
-            })
-            })
-            const bakedBy = foundBread.getBakedBy()
-            console.log(bakedBy)
-
-            // console.log(foundBread)  //shows what bread object is passed
-
-          
+                })
         })
         .catch(err => {
             res.render('404')
         })
-
-
-
-
 
     // if(Bread[req.params.arrayIndex]) {
     //     res.render('Show', {
@@ -87,14 +100,12 @@ breads.post('/',(req,res) => {
     .then(() => {
        res.redirect('/breads') 
     })
-    .catch ((error) => {
-        res.render('new', {
-            error
-        })
-    })
+    // .catch ((error) => {
+    //     res.render('new', {
+    //         error
+    //     })
+    // })
     
-
-
 })
 
 
@@ -127,15 +138,18 @@ breads.put('/:id', (req,res) => {
 
 //EDIT 
 breads.get('/:id/edit' , (req,res) => {
-
-    Bread.findById(req.params.id)
+    Baker.find()
+    .then(foundBakers => {Bread.findById(req.params.id)
         .then(foundBread => {
             console.log(foundBread)
             res.render('edit', {
                 bread: foundBread,
+                bakers:foundBakers,
                 title:'Edit Page'
             })
         })
+    })
+    
 })
 
 

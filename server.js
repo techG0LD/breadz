@@ -23,16 +23,14 @@ const connectToMongo = () => {
 const PORT = process.env.PORT;
 
 app.use(morgan('tiny'))
-connectToMongo()
+
 
 
 // MIDDLEWARE
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
-
 app.use(express.static('public'))
-
 app.use(express.urlencoded({extended: true}))
 
 app.use(methodOverride('_method'))
@@ -49,16 +47,20 @@ app.get('/', function(req,res){
 
 
 //BREADS ROUTES
-
 const breadsController = require('./controllers/breads_controller.js')
 app.use('/breads',breadsController)
+
+// Baker Routes
+const bakerController = require('./controllers/bakers_controllers.js')
+app.use('/bakers',bakerController)
+
 
 //CATCH ALL ROUTE    404 PAGE 
 app.get('*',(req,res) => {
     res.send('404')
 })
 
-
+connectToMongo()
 
 app.listen(PORT,function(){
     console.log(`http://localhost:${PORT}`)
