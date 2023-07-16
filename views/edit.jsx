@@ -5,7 +5,7 @@ function Edit({bread,bakers,title}){
     return (
         <Default title={title}>
             <h2>Edit a bread</h2>
-            <form action={`/breads/${bread.id}?_method=PUT`} method = 'POST'>
+            <form action={`/breads/${bread.id}?_method=PUT`} method='POST'>
                 <label htmlFor='name'>Name</label>
                 <input
                     type='text'
@@ -20,13 +20,14 @@ function Edit({bread,bakers,title}){
                     name='image'
                     id='image'
                     defaultValue = {bread.image}
-                    pattern="https?://.+" title="Include http://" />
+                    pattern="https?://.+" title="Include http://" 
+                />
                 
                 <label htmlFor='baker'>Baker</label>
                 <select name="baker" id="baker" defaultValue={bread.baker}>
                     {bakers.map((baker) => {
                         return (
-                            <option value={baker.id} key={baker.id}>
+                        <option value={baker.id} key={baker.id}>
                             {baker.name}
                         </option>
                         )

@@ -13,7 +13,11 @@ const breadSchema = new Schema ({
     image: {type: String, default: 'http://placehold.it/500x500.png'},
 
     //this id is ass with a doc in the 
-    baker: {type: Schema.Types.ObjectId, ref:'Baker'}
+    baker: {type: Schema.Types.ObjectID, ref:'Baker'}
+    }, {
+        toJSON: {
+            virtuals:true
+        }
     })
 
 
