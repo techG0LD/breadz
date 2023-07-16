@@ -11,7 +11,7 @@ breads.get('/', async(req, res) => {
 
     try {
         const foundBakers = await Baker.find().lean()
-        const foundBreads = await Bread.find().populate('baker').limit(4)
+        const foundBreads = await Bread.find().populate('baker').limit(30)
 
         res.render('index', {
             breads: foundBreads,
